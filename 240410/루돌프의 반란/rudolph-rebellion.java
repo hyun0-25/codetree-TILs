@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 
 /**
  * 시작: 23:05
- * 종료: 25:43
+ * 종료:
  * 
  * 문제해석
  * P명의 산타
@@ -246,6 +246,7 @@ public class Main {
 				if(rx==nx && ry==ny) {
 					idx -= 4;
 					if(idx<0) idx+=8;
+					map[nx][ny]=0;
 					crush(s.number, idx, D);
 				}
 				
