@@ -2,8 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -299,17 +302,18 @@ public class Main {
 		}
 	}
 	public static void strong() {
-		PriorityQueue<Strong> pq = new PriorityQueue<>();
+		List<Strong> list = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if((i==wx && j==wy)|| map[i][j]<=0) continue;
 				//else
 				int point = map[i][j];
 				int t = attack[i][j];
-				pq.offer(new Strong(i,j,point,t));
+				list.add(new Strong(i,j,point,t));
 			}
 		}
-		Strong s = pq.poll();
+		Collections.sort(list);
+		Strong s = list.get(0);
 		sx = s.x;
 		sy = s.y;
 	}
@@ -341,19 +345,21 @@ public class Main {
 		}
 	}
 	public static void weak() {
-		PriorityQueue<Weak> pq = new PriorityQueue<>();
+		List<Weak> list = new ArrayList<>();
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if(map[i][j]<=0) continue;
 				int point = map[i][j];
 				int t = attack[i][j];
-				pq.offer(new Weak(i,j,point,t));
+				list.add(new Weak(i,j,point,t));
 			}
 		}
-		Weak w = pq.poll();
+		Collections.sort(list);
+		Weak w = list.get(0);
 		wx = w.x;
 		wy = w.y;
 		attack[wx][wy]=time;
 		map[wx][wy]+=N+M;
 	}
+
 }
