@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 /**
  * 시작: 00:24
- * 종료: 01:28
+ * 종료:
  * 
  * 문제해석
  * 4X4 격자에 m개 몬스터, 1개 팩맨
@@ -92,6 +92,7 @@ public class Main {
 		m = Integer.parseInt(st.nextToken());
 		t = Integer.parseInt(st.nextToken());
 		map = new List[4][4];
+		copymap = new List[4][4];
 		die = new int[4][4];
 		st = new StringTokenizer(br.readLine());
 		px = Integer.parseInt(st.nextToken())-1;
@@ -155,24 +156,29 @@ public class Main {
 		int pk = -1;
 		boolean visited[][] = new boolean[4][4];
 		for (int i = 0; i < 8; i+=2) {
-			int xi = px+dx[i];
-			int yi = py+dy[i];
-			if(!rangecheck(xi,yi)) continue;
-			int size1 = map[xi][yi].size();
-			if(visited[xi][yi]) {
-				size1=0;
-			}
-			visited[xi][yi]=true;
 			for (int j = 0; j < 8; j+=2) {
-				int xj = xi+dx[j];
-				int yj = yi+dy[j];
-				if(!rangecheck(xj,yj)) continue;
-				int size2 = map[xj][yj].size();
-				if(visited[xj][yj]) {
-					size2=0;
-				}
-				visited[xj][yj]=true;
 				for (int k = 0; k < 8; k+=2) {
+					visited = new boolean[4][4];
+					int xi = px+dx[i];
+					int yi = py+dy[i];
+					if(!rangecheck(xi,yi)) continue;
+					int size1 = map[xi][yi].size();
+					if(visited[xi][yi]) {
+						size1=0;
+					}
+					else {
+						visited[xi][yi]=true;
+					}
+					int xj = xi+dx[j];
+					int yj = yi+dy[j];
+					if(!rangecheck(xj,yj)) continue;
+					int size2 = map[xj][yj].size();
+					if(visited[xj][yj]) {
+						size2=0;
+					}
+					else {
+						visited[xj][yj]=true;
+					}
 					int xk = xj+dx[k];
 					int yk = yj+dy[k];
 					if(!rangecheck(xk,yk)) continue;
@@ -180,8 +186,9 @@ public class Main {
 					if(visited[xk][yk]) {
 						size3=0;
 					}
-					visited[xk][yk]=true;
-					
+					else {
+						visited[xk][yk]=true;
+					}
 					int size = size1+size2+size3;
 					if(size>max) {
 						max = size;
@@ -189,11 +196,8 @@ public class Main {
 						pj=j;
 						pk=k;
 					}
-					visited[xk][yk]=false;
 				}
-				visited[xj][yj]=false;
 			}
-			visited[xi][yi]=false;
 		}
 		
 		int xi = px+dx[pi];
@@ -261,7 +265,6 @@ public class Main {
 	}
 	
 	public static void copymonster(){
-		copymap = new List[4][4];
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				copymap[i][j] = new ArrayList<>(map[i][j]);
@@ -271,4 +274,5 @@ public class Main {
 	public static boolean rangecheck(int rx, int ry) {
 		return rx>=0 && rx<4 && ry>=0 && ry<4;
 	}
+
 }
