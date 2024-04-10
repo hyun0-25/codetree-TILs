@@ -84,8 +84,8 @@ public class Main {
 			return "Monster [x=" + x + ", y=" + y + ", d=" + d + "]";
 		}
 	}
-	static int dx[] = {-1,0,1,0};
-	static int dy[] = {0,-1,0,1};
+	static int dx[] = {-1,-1,0,1,1,1,0,-1};
+	static int dy[] = {0,-1,-1,-1,0,1,1,1};
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -94,7 +94,9 @@ public class Main {
 		map = new List[4][4];
 		copymap = new List[4][4];
 		die = new int[4][4];
-		
+		st = new StringTokenizer(br.readLine());
+		px = Integer.parseInt(st.nextToken())-1;
+		py = Integer.parseInt(st.nextToken())-1;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				map[i][j] = new ArrayList<>();
@@ -107,10 +109,6 @@ public class Main {
 			int d = Integer.parseInt(st.nextToken())-1;
 			map[x][y].add(new Monster(x,y,d));
 		}
-		st = new StringTokenizer(br.readLine());
-		px = Integer.parseInt(st.nextToken())-1;
-		py = Integer.parseInt(st.nextToken())-1;
-		
 		for (int i = 1; i <= t; i++) {
 			time = i;
 			copymonster();
@@ -157,17 +155,17 @@ public class Main {
 		int pj = -1;
 		int pk = -1;
 		boolean visited[][] = new boolean[4][4];
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 8; i+=2) {
 			int xi = px+dx[i];
 			int yi = py+dy[i];
 			if(!rangecheck(xi,yi)) continue;
 			int size1 = map[xi][yi].size();
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 8; j+=2) {
 				int xj = xi+dx[j];
 				int yj = yi+dy[j];
 				if(!rangecheck(xj,yj)) continue;
 				int size2 = map[xj][yj].size();
-				for (int k = 0; k < 4; k++) {
+				for (int k = 0; k < 8; k+=2) {
 					int xk = xj+dx[k];
 					int yk = yj+dy[k];
 					if(!rangecheck(xk,yk)) continue;
@@ -178,17 +176,14 @@ public class Main {
 						size1=0;
 					}
 					visited[xi][yi]=true;
-					
 					if(visited[xj][yj]) {
 						size2=0;
 					}
 					visited[xj][yj]=true;
-					
 					if(visited[xk][yk]) {
 						size3=0;
 					}
 					visited[xk][yk]=true;
-					
 					int size = size1+size2+size3;
 					if(size>max) {
 						max = size;
@@ -222,8 +217,7 @@ public class Main {
 		px = xk;
 		py = yk;
 	}
-   static int dx1[] = {0,-1,-1,-1,0,1,1,1};
-   static int dy1[] = {-1,-1,0,1,1,1,0,-1};
+	
 	public static void movemonster() {
 		newmap = new List[4][4];
 		for (int i = 0; i < 4; i++) {
@@ -240,12 +234,12 @@ public class Main {
 					int d = m.d;
 					int cnt = 0;
 					while(cnt<8) {
-						int nx = x+dx1[d];
-						int ny = y+dy1[d];
+						int nx = x+dx[d];
+						int ny = y+dy[d];
 						if(!rangecheck(nx,ny) || (nx==px && ny==py) || die[nx][ny]>=time) {
 							cnt++;
-							d--;
-							if(d<0) d+=8;
+							d++;
+							if(d>=8) d-=8;
 						}
 						else {
 							newmap[nx][ny].add(new Monster(nx,ny,d));
