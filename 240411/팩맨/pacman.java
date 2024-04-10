@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 /**
  * 시작: 00:24
- * 종료:
+ * 종료: 01:28
  * 
  * 문제해석
  * 4X4 격자에 m개 몬스터, 1개 팩맨
@@ -68,22 +68,8 @@ import java.util.StringTokenizer;
 public class Main {
 	static int m,t,px,py,time;
 	static int die[][];
-	static List<Monster>[][] map,copymap,newmap;
-	static class Monster{
-		int x,y,d;
+	static List<Integer>[][] map,copymap,newmap;
 
-		public Monster(int x, int y, int d) {
-			super();
-			this.x = x;
-			this.y = y;
-			this.d = d;
-		}
-
-		@Override
-		public String toString() {
-			return "Monster [x=" + x + ", y=" + y + ", d=" + d + "]";
-		}
-	}
 	static int dx[] = {-1,-1,0,1,1,1,0,-1};
 	static int dy[] = {0,-1,-1,-1,0,1,1,1};
 	public static void main(String[] args) throws IOException {
@@ -107,7 +93,7 @@ public class Main {
 			int x = Integer.parseInt(st.nextToken())-1;
 			int y = Integer.parseInt(st.nextToken())-1;
 			int d = Integer.parseInt(st.nextToken())-1;
-			map[x][y].add(new Monster(x,y,d));
+			map[x][y].add(d);
 		}
 		for (int i = 1; i <= t; i++) {
 			time = i;
@@ -228,10 +214,9 @@ public class Main {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				for (int k = 0; k < map[i][j].size(); k++) {
-					Monster m = map[i][j].get(k);
-					int x = m.x;
-					int y = m.y;
-					int d = m.d;
+					int d = map[i][j].get(k);
+					int x = i;
+					int y = j;
 					int cnt = 0;
 					while(cnt<8) {
 						int nx = x+dx[d];
@@ -242,12 +227,12 @@ public class Main {
 							if(d>=8) d-=8;
 						}
 						else {
-							newmap[nx][ny].add(new Monster(nx,ny,d));
+							newmap[nx][ny].add(d);
 							break;
 						}
 					}
 					if(cnt==8) {
-						newmap[i][j].add(m);
+						newmap[i][j].add(d);
 					}
 				}
 			}
