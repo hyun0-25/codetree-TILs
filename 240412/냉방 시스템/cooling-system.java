@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 /**
  * 시작: 22:53
- * 종료: 24:41
+ * 종료:
  * 
  * 문제해석
  * 0~5사이 숫자 적힌 nXn격자
@@ -163,6 +163,7 @@ public class Main {
 				}
 			}
 		}
+
 	}
 	public static void spread() {
 		int copycool[][] = new int[n][n];
@@ -223,12 +224,15 @@ public class Main {
 					int yy = p.y;
 					morecool[xx][yy] += depth;
 					//3방 숫자넣기
+						
 					int nx = xx+dx[d];
 					int ny = yy+dy[d];
+					
 					if(rangecheck(nx,ny) && !visited[nx][ny] && !wall[xx][yy][d/2]) {
 						q.add(new Pair(nx,ny));
 						visited[nx][ny]=true;
 					}
+					
 					int nx1 = xx+dx[d1];
 					int ny1 = yy+dy[d1];
 					int nx2 = xx+dx[d2];
@@ -237,7 +241,7 @@ public class Main {
 					if(dd>=4) dd-=4;
 					int dd1 = 0;
 					int dd2 = 0;
-					if(d==0 || d==2) {
+					if(d==0 || d==4) {
 						dd1 = dd+1;
 						if(dd1>=4) dd1-=4;
 						dd2 = dd-1;
@@ -253,17 +257,19 @@ public class Main {
 					if(rangecheck(nx1,ny1) && !visited[nx1][ny1] && !wall[xx][yy][dd1] && !wall[nx1][ny1][dd]) {
 						q.add(new Pair(nx1,ny1));
 						visited[nx1][ny1]=true;
+
 					}
+					
 					if(rangecheck(nx2,ny2) && !visited[nx2][ny2] && !wall[xx][yy][dd2] && !wall[nx2][ny2][dd]) {
 						q.add(new Pair(nx2,ny2));
 						visited[nx2][ny2]=true;
+
 					}
 				}
 				depth--;
 				if(depth==0) break;
 			}
 		}
-		
 	}
 	public static boolean rangecheck(int rx, int ry) {
 		return rx>=0 && rx<n && ry>=0 && ry<n;
