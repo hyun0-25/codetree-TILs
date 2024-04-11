@@ -241,11 +241,11 @@ public class Main {
 			if(Math.abs(ex-x) > Math.abs(ey-y)) {
 				len = Math.abs(ex-x)+1;
 				r = Math.min(ex,x);
-				c = Math.max(Math.max(ey, y)-len, 0);
+				c = Math.max(Math.max(ey, y)-len+1, 0);
 			}
 			else {
 				len = Math.abs(ey-y)+1;
-				r = Math.max(Math.max(ex, x)-len, 0);
+				r = Math.max(Math.max(ex, x)-len+1, 0);
 				c = Math.min(ey,y);
 			}
 			pq.add(new Square(r,c,len));
